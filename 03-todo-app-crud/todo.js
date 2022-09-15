@@ -69,16 +69,40 @@ class TodoList extends React.Component {
       <ul>
         {this.props.items.map(item => (
           <li key={item.id}>
-            <span>{item.text} <button>Edit</button> <button onClick={this.handleDelete} value={item.id}>Delete</button></span>
+            <TodoItem
+              item={item}
+              onDelete={this.handleDelete}
+            />
           </li>
         ))}
       </ul>
     );
   }
 
+  handleDelete(itemId) {
+    this.props.onDelete(itemId);
+  }
+}
+
+class TodoItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  render() {
+    return (
+      <span>
+        {this.props.item.text}
+        <button>Edit</button>
+        <button onClick={this.handleDelete} value={this.props.item.id}>Delete</button>
+      </span>
+    )
+  }
+
   handleDelete(e) {
     e.preventDefault();
-    this.props.onDelete(e.target.value)
+    this.props.onDelete(e.target.value);
   }
 }
 
