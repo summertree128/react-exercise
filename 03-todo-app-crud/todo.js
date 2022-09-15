@@ -5,6 +5,7 @@ class TodoApp extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
   
   render() {
@@ -14,6 +15,7 @@ class TodoApp extends React.Component {
         <TodoList 
           items={this.state.items}
           onDelete={this.handleDelete}
+          onSave={this.handleSave}
         />
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="new-todo">
@@ -56,12 +58,19 @@ class TodoApp extends React.Component {
       items: state.items.filter(item => item.id != itemId)
     }))
   }
+
+  handleSave(itemId, text) {
+    const edited_item = this.state.items.find(item => item.id == itemId);
+    edited_item.text = text;
+    this.setState(state => ({ items: state.items }))
+  }
 }
 
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   render() {
@@ -72,6 +81,7 @@ class TodoList extends React.Component {
             <TodoItem
               item={item}
               onDelete={this.handleDelete}
+              onSave={this.handleSave}
             />
           </li>
         ))}
@@ -82,19 +92,39 @@ class TodoList extends React.Component {
   handleDelete(itemId) {
     this.props.onDelete(itemId);
   }
+
+  handleSave(itemId, text) {
+    this.props.onSave(itemId, text);
+  }
 }
 
 class TodoItem extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { onEdit: false, text: this.props.item.text };
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleChange = this.handleChange.bind(this)
   }
 
   render() {
+    if (this.state.onEdit) {
+      return (
+        <span>
+          <form onSubmit={this.handleSave}>
+            <input type="text" name="text" value={this.state.text} onChange={this.handleChange}/>
+            <input type="hidden" name="id" value={this.props.item.id} />
+            <button>Save</button>
+          </form>
+        </span>
+      )
+    }
+
     return (
       <span>
         {this.props.item.text}
-        <button>Edit</button>
+        <button onClick={this.handleEdit} value={this.props.item.id}>Edit</button>
         <button onClick={this.handleDelete} value={this.props.item.id}>Delete</button>
       </span>
     )
@@ -103,6 +133,21 @@ class TodoItem extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.onDelete(e.target.value);
+  }
+
+  handleEdit(e) {
+    e.preventDefault();
+    this.setState({ onEdit: true })
+  }
+
+  handleSave(e) {
+    e.preventDefault();
+    this.props.onSave(this.props.item.id, this.state.text)
+    this.setState({ onEdit: false })
+  }
+
+  handleChange(e) {
+    this.setState({ text: e.target.value })
   }
 }
 
