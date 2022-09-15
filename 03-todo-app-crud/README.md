@@ -1,6 +1,6 @@
-# todo-app-example
+# todo-app-crud
 
-This is a todo app sample based on an example in [React offical doc](https://reactjs.org/#:~:text=Seconds%3A%207-,An%20Application,-Using%20props%20and).
+Todo app with create/edit/delete features. Based on an example in [React offical doc](https://reactjs.org/#:~:text=Seconds%3A%207-,An%20Application,-Using%20props%20and) but the edit/delete features are added.
 
 ## How to run
 
