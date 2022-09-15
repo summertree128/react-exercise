@@ -4,6 +4,7 @@ class TodoApp extends React.Component {
     this.state = { items: [], text: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   
   render() {
@@ -12,6 +13,7 @@ class TodoApp extends React.Component {
         <h3>TODO</h3>
         <TodoList 
           items={this.state.items}
+          onDelete={this.handleDelete}
         />
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="new-todo">
@@ -42,18 +44,24 @@ class TodoApp extends React.Component {
     const newItem = {
       text: this.state.text,
       id: Date.now(),
-      onEdit: false,
     };
     this.setState(state => ({
       items: state.items.concat(newItem),
       text: '',
     }));
   }
+
+  handleDelete(itemId) {
+    this.setState(state => ({
+      items: state.items.filter(item => item.id != itemId)
+    }))
+  }
 }
 
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   render() {
@@ -61,11 +69,16 @@ class TodoList extends React.Component {
       <ul>
         {this.props.items.map(item => (
           <li key={item.id}>
-            {item.text}
+            <span>{item.text} <button>Edit</button> <button onClick={this.handleDelete} value={item.id}>Delete</button></span>
           </li>
         ))}
       </ul>
     );
+  }
+
+  handleDelete(e) {
+    e.preventDefault();
+    this.props.onDelete(e.target.value)
   }
 }
 
