@@ -111,22 +111,22 @@ class TodoItem extends React.Component {
   render () {
     if (this.state.onEdit) {
       return (
-        <span>
+        <React.Fragment>
           <form onSubmit={this.handleSave}>
             <input type='text' name='text' value={this.state.text} onChange={this.handleChange} />
             <input type='hidden' name='id' value={this.props.item.id} />
             <button>Save</button>
           </form>
-        </span>
+        </React.Fragment>
       )
     }
 
     return (
-      <span>
+      <React.Fragment>
         {this.props.item.text}
         <button onClick={this.handleEdit} value={this.props.item.id}>Edit</button>
         <button onClick={this.handleDelete} value={this.props.item.id}>Delete</button>
-      </span>
+      </React.Fragment>
     )
   }
 
