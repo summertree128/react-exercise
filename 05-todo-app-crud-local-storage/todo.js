@@ -6,6 +6,12 @@ class TodoApp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.itemKey = 'todos'
+  }
+
+  componentDidMount () {
+    const items = this.getTodos()
+    this.setState({ items: items })
   }
 
   render () {
@@ -47,23 +53,34 @@ class TodoApp extends React.Component {
       text: this.state.text,
       id: Date.now()
     }
-    this.setState(state => ({
-      items: state.items.concat(newItem),
-      text: ''
-    }))
+
+    const newItems = this.state.items.concat(newItem)
+
+    this.saveTodos(newItems)
+    this.setState({ items: newItems, text: '' })
   }
 
   handleDelete (itemId) {
-    this.setState(state => ({
-      items: state.items.filter(item => item.id != itemId)
-    }))
+    const newItems = this.state.items.filter(item => item.id != itemId)
+    this.saveTodos(newItems)
+    this.setState({ items: newItems })
   }
 
   handleSave (itemId, text) {
     const newItems = Array.from(this.state.items)
     const editedItem = newItems.find(item => item.id == itemId)
     editedItem.text = text
+    this.saveTodos(newItems)
     this.setState({ items: newItems })
+  }
+
+  getTodos() {
+    const todos = localStorage.getItem(this.itemKey)
+    return todos === null ? [] : JSON.parse(todos)
+  }
+
+  saveTodos(todos) {
+    localStorage.setItem(this.itemKey, JSON.stringify(todos))
   }
 }
 
