@@ -102,7 +102,7 @@ class TodoList extends React.Component {
 class TodoItem extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { onEdit: false, text: this.props.item.text }
+    this.state = { editing: false, text: this.props.item.text }
     this.handleDelete = this.handleDelete.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleSave = this.handleSave.bind(this)
@@ -110,7 +110,7 @@ class TodoItem extends React.Component {
   }
 
   render () {
-    if (this.state.onEdit) {
+    if (this.state.editing) {
       return (
         <React.Fragment>
           <form onSubmit={this.handleSave}>
@@ -138,13 +138,13 @@ class TodoItem extends React.Component {
 
   handleEdit (e) {
     e.preventDefault()
-    this.setState({ onEdit: true })
+    this.setState({ editing: true })
   }
 
   handleSave (e) {
     e.preventDefault()
     this.props.onSave(this.props.item.id, this.state.text)
-    this.setState({ onEdit: false })
+    this.setState({ editing: false })
   }
 
   handleChange (e) {
