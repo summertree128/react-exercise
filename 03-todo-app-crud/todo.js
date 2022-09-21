@@ -60,9 +60,10 @@ class TodoApp extends React.Component {
   }
 
   handleSave (itemId, text) {
-    const editedItem = this.state.items.find(item => item.id == itemId)
+    const newItems = Array.from(this.state.items)
+    const editedItem = newItems.find(item => item.id == itemId)
     editedItem.text = text
-    this.setState(state => ({ items: state.items }))
+    this.setState({ items: newItems })
   }
 }
 
