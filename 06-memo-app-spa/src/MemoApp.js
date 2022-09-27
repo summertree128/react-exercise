@@ -1,15 +1,15 @@
-import React from "react";
-import MemoList from "./components/MemoList";
-import MemoDetail from "./components/MemoDetail";
+import React from 'react'
+import MemoList from './components/MemoList'
+import MemoDetail from './components/MemoDetail'
 
- class MemoApp extends React.Component {
+class MemoApp extends React.Component {
   constructor () {
     super()
     this.state = {
       memos: [],
       editing: false,
-      text: "",
-      id: "",
+      text: '',
+      id: ''
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -20,39 +20,40 @@ import MemoDetail from "./components/MemoDetail";
 
   render () {
     return (
-      <div className="memo-app">
-        <header className="memo-app-header">
+      <div className='memo-app'>
+        <header className='memo-app-header'>
           <p>Super Simple Memo App</p>
         </header>
-        <div className="memo-app-container">
-          <aside className="memo-app-sidebar">
+        <div className='memo-app-container'>
+          <aside className='memo-app-sidebar'>
             <MemoList memos={this.state.memos} onEdit={this.handleEdit} />
             <button onClick={this.handleClick}>+</button>
           </aside>
-          <div className="memo-app-content">
-            {this.state.editing && <MemoDetail 
-              text={this.state.text}
-              id={this.state.id}
-              onChange={this.handleChange}
-              onSubmit={this.handleSubmit}
-              onDelete={this.handleDelete}
-            />}
+          <div className='memo-app-content'>
+            {this.state.editing &&
+              <MemoDetail
+                text={this.state.text}
+                id={this.state.id}
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
+                onDelete={this.handleDelete}
+              />}
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   handleClick (e) {
     e.preventDefault()
-    this.setState({ editing: true, id: "", text: "" })
+    this.setState({ editing: true, id: '', text: '' })
   }
 
-  handleChange(e) {
+  handleChange (e) {
     this.setState({ text: e.target.value })
   }
 
-  handleSubmit(e) {
+  handleSubmit (e) {
     e.preventDefault()
     if (this.state.text.length === 0) {
       return
@@ -65,40 +66,40 @@ import MemoDetail from "./components/MemoDetail";
     }
   }
 
-  handleEdit(e) {
+  handleEdit (e) {
     e.preventDefault()
     const id = e.target.dataset.id
     const memoToEdit = this.state.memos.find(memo => memo.id === parseInt(id))
-    this.setState({ editing: true, id: id, text: memoToEdit.content })
+    this.setState({ editing: true, id, text: memoToEdit.content })
   }
 
-  handleDelete(e) {
+  handleDelete (e) {
     e.preventDefault()
-    const stateToSet = { editing: false, id: "", text: "" }
+    const stateToSet = { editing: false, id: '', text: '' }
     if (this.state.id) {
       stateToSet.memos = this.state.memos.filter(memo => memo.id !== parseInt(this.state.id))
     }
     this.setState(stateToSet)
   }
 
-  updateMemo(id, text) {
+  updateMemo (id, text) {
     const newMemos = [...this.state.memos]
     const updatedMemo = newMemos.find(memo => memo.id === parseInt(id))
-    updatedMemo.title = text.split("\n")[0]
+    updatedMemo.title = text.split('\n')[0]
     updatedMemo.content = text
 
-    this.setState({ memos: newMemos, editing: false, id: "", text: ""})
+    this.setState({ memos: newMemos, editing: false, id: '', text: '' })
   }
 
-  createMemo(text) {
+  createMemo (text) {
     const newMemo = {
       id: Date.now(),
-      title: text.split("\n")[0],
-      content: text,
+      title: text.split('\n')[0],
+      content: text
     }
     const newMemos = [...this.state.memos, newMemo]
-    this.setState({ memos: newMemos, editing: false, id: "", text: ""})
+    this.setState({ memos: newMemos, editing: false, id: '', text: '' })
   }
 }
 
-export default MemoApp;
+export default MemoApp

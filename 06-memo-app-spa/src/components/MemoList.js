@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
-function MemoList(props) {
-
+function MemoList (props) {
   return (
     <ul>
       {props.memos.map(memo => (
         <li key={memo.id}>
-          <a href="/#"
+          <a
+            href='/#'
             onClick={props.onEdit}
             data-id={memo.id}
           >
@@ -15,7 +15,7 @@ function MemoList(props) {
         </li>
       ))}
     </ul>
-  );
+  )
 }
 
-export default MemoList;
+export default MemoList
