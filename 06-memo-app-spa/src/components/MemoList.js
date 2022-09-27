@@ -1,21 +1,21 @@
 import React from "react";
 
-class MemoList extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+function MemoList(props) {
 
-  render () {
-    return (
-      <ul>
-        {this.props.memos.map(memo => (
-          <li key={memo.id}>
+  return (
+    <ul>
+      {props.memos.map(memo => (
+        <li key={memo.id}>
+          <a href="/#"
+            onClick={props.onEdit}
+            data-id={memo.id}
+          >
             {memo.title}
-          </li>
-        ))}
-      </ul>
-    );
-  }
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default MemoList;

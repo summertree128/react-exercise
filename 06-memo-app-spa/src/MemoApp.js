@@ -8,11 +8,13 @@ import MemoDetail from "./components/MemoDetail";
     this.state = {
       memos: [],
       editing: false,
-      text: "" 
+      text: "",
+      id: "",
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
   }
 
   render () {
@@ -23,11 +25,13 @@ import MemoDetail from "./components/MemoDetail";
         </header>
         <div className="memo-app-container">
           <aside className="memo-app-sidebar">
-            <MemoList memos={this.state.memos}/>
+            <MemoList memos={this.state.memos} onEdit={this.handleEdit} />
             <button onClick={this.handleClick}>+</button>
           </aside>
           <div className="memo-app-content">
             {this.state.editing && <MemoDetail 
+              text={this.state.text}
+              id={this.state.id}
               onChange={this.handleChange}
               onSubmit={this.handleSubmit}
             />}
@@ -52,13 +56,37 @@ import MemoDetail from "./components/MemoDetail";
       return
     }
 
+    if (this.state.id) {
+      this.updateMemo(this.state.id, this.state.text)
+    } else {
+      this.createMemo(this.state.text)
+    }
+  }
+
+  handleEdit(e) {
+    e.preventDefault()
+    const id = e.target.dataset.id
+    const memoToEdit = this.state.memos.find(memo => memo.id === parseInt(id))
+    this.setState({ editing: true, id: id, text: memoToEdit.content })
+  }
+
+  updateMemo(id, text) {
+    const newMemos = [...this.state.memos]
+    const updatedMemo = newMemos.find(memo => memo.id === parseInt(id))
+    updatedMemo.title = text.split("\n")[0]
+    updatedMemo.content = text
+
+    this.setState({ memos: newMemos, editing: false, id: "", text: ""})
+  }
+
+  createMemo(text) {
     const newMemo = {
       id: Date.now(),
-      title: this.state.text.split("\n")[0],
-      text: this.state.text,
+      title: text.split("\n")[0],
+      content: text,
     }
     const newMemos = [...this.state.memos, newMemo]
-    this.setState({ memos: newMemos, editing: false, text: "" })
+    this.setState({ memos: newMemos, editing: false, id: "", text: ""})
   }
 }
 
