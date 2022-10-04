@@ -10,7 +10,7 @@ export default function Root() {
             <input
               type="search"
               id="q"
-              aria-lable="Search contacts"
+              aria-label="Search contacts"
               placeholder="Search"
               name="q"
             />
