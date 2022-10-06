@@ -7,7 +7,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export async function action() {
   const contact = await createContact();
@@ -23,10 +23,11 @@ export async function loader({ request }) {
 
 export default function Root() {
   const { contacts, q } = useLoaderData();
+  const [query, setQuery] = useState(q);
   const navigation = useNavigation();
 
   useEffect(() => {
-    document.getElementById("q").value = q;
+    setQuery(q);
   }, [q]);
 
   return (
@@ -41,7 +42,10 @@ export default function Root() {
               aria-label="Search contacts"
               placeholder="Search"
               name="q"
-              defaultValue={q}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
             />
             <div id="search-spinner" aria-hidden hidden={true}></div>
             <div className="sr-only" aria-live="polite"></div>
