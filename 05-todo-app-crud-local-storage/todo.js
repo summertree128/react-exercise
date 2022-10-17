@@ -24,15 +24,16 @@ class TodoApp extends React.Component {
           onSave={this.handleSave}
         />
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor='new-todo'>
+          <label htmlFor='new-todo' className="todo-item-add-label">
             What needs to be done?
           </label>
           <input
             id='new-todo'
             onChange={this.handleChange}
             value={this.state.text}
+            className="todo-item-add-input"
           />
-          <button>
+          <button className="todo-item-add-button">
             Add #{this.state.items.length + 1}
           </button>
         </form>
@@ -129,22 +130,22 @@ class TodoItem extends React.Component {
   render () {
     if (this.state.editing) {
       return (
-        <>
-          <form onSubmit={this.handleSave}>
-            <input type='text' name='text' value={this.state.text} onChange={this.handleChange} />
+        <div className="todo-item">
+          <form onSubmit={this.handleSave} className="todo-item-edit-form">
+            <input type='text' name='text' value={this.state.text} onChange={this.handleChange} className="todo-item-edit-input" />
             <input type='hidden' name='id' value={this.props.item.id} />
-            <button>Save</button>
+            <button className="todo-item-button">Save</button>
           </form>
-        </>
+        </div>
       )
     }
 
     return (
-      <React.Fragment>
-        {this.props.item.text}
-        <button onClick={this.handleEdit} value={this.props.item.id}>Edit</button>
-        <button onClick={this.handleDelete} value={this.props.item.id}>Delete</button>
-      </React.Fragment>
+      <div className="todo-item">
+        <div className="todo-item-text">{this.props.item.text}</div>
+        <button onClick={this.handleEdit} value={this.props.item.id} className="todo-item-button">Edit</button>
+        <button onClick={this.handleDelete} value={this.props.item.id} className="todo-item-button">Delete</button>
+      </div>
     )
   }
 
