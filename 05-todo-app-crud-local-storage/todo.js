@@ -129,13 +129,13 @@ class TodoItem extends React.Component {
   render () {
     if (this.state.editing) {
       return (
-        <React.Fragment>
+        <>
           <form onSubmit={this.handleSave}>
             <input type='text' name='text' value={this.state.text} onChange={this.handleChange} />
             <input type='hidden' name='id' value={this.props.item.id} />
             <button>Save</button>
           </form>
-        </React.Fragment>
+        </>
       )
     }
 
