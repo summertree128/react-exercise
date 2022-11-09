@@ -1,6 +1,7 @@
-import { useState } from "react";
-import MemoList from "./components/MemoList";
+import React, { useState } from "react";
 import MemoDetail from "./components/MemoDetail";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
 function MemoApp() {
   const [memos, setMemos] = useState([]);
@@ -93,27 +94,15 @@ function MemoApp() {
 
   return (
     <div className="memo-app">
-      <header className="memo-app-header">
-        <p>Super Simple Memo App</p>
-      </header>
+      <Header />
       <div className="memo-app-container">
-        <aside className="memo-app-sidebar">
-          <MemoList memos={memos} onEdit={handleEdit} />
-          <button onClick={handleAdd} className="memo-app-add-button">
-            +
-          </button>
-        </aside>
-        <div className="memo-app-content">
-          {memoInput.editing && (
-            <MemoDetail
-              text={memoInput.text}
-              id={memoInput.id}
-              onChange={handleChange}
-              onSave={handleSave}
-              onDelete={handleDelete}
-            />
-          )}
-        </div>
+        <Sidebar memos={memos} onEdit={handleEdit} onClick={handleAdd} />
+        <MemoDetail
+          memoInput={memoInput}
+          onChange={handleChange}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
       </div>
     </div>
   );
