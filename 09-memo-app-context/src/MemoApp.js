@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import MemoDetail from "./components/MemoDetail";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import { useTheme } from "./hooks/useTheme";
+import ThemeToggle from "./components/ThemeToggle";
 
 function MemoApp() {
   const [memos, setMemos] = useState([]);
+
   const [memoInput, setMemoInput] = useState({
     editing: false,
     text: "",
     id: "",
   });
+
+  const { themeStyle } = useTheme();
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -93,8 +98,9 @@ function MemoApp() {
   };
 
   return (
-    <div className="memo-app">
+    <div className="memo-app"  style={{ background: themeStyle.background, color: themeStyle.color }}>
       <Header />
+      <ThemeToggle />
       <div className="memo-app-container">
         <Sidebar memos={memos} onEdit={handleEdit} onClick={handleAdd} />
         <MemoDetail
